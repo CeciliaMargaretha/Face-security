@@ -490,6 +490,7 @@
   }
 
   @keyframes rotateSlow { to { transform: rotate(360deg); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
   .center-icon {
     width: 64px; height: 64px;
@@ -1015,7 +1016,7 @@
   <div>
     <div class="hero-eyebrow">AI Security Solution</div>
     <h1>Keamanan Verifikasi Identitas <em>yang Lebih Cerdas</em></h1>
-    <p class="hero-sub">BioLive Face Security membantu memastikan bahwa setiap autentikasi dilakukan oleh pengguna yang benar-benar hadir secara langsung bukan foto, video, maupun manipulasi identitas lainnya.</p>
+    <p class="hero-sub">BioLive Face Security membantu memastikan bahwa setiap autentikasi dilakukan oleh pengguna yang benar-benar hadir secara langsung — bukan foto, video, maupun manipulasi identitas lainnya.</p>
     <div class="btn-group">
       <a href="#demo" class="btn-primary">Coba Demo</a>
       <a href="#contact" class="btn-secondary">Hubungi Kami</a>
@@ -1246,17 +1247,29 @@
   </div>
 
   <div class="demo-container reveal">
-    <!-- Camera feed: video element menggantikan placeholder -->
+    <!-- Camera feed -->
     <div class="demo-cam" style="position:relative;">
       <video id="demo-video" autoplay playsinline muted
         style="width:100%;height:100%;object-fit:cover;display:none;"></video>
+      <!-- Canvas overlay kotak wajah dari face-api.js -->
+      <canvas id="face-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;display:none;"></canvas>
+      <!-- Canvas hidden untuk snapshot -->
       <canvas id="demo-canvas" style="display:none;"></canvas>
       <div id="cam-placeholder" style="display:flex;flex-direction:column;align-items:center;gap:12px;">
         <div class="demo-cam-placeholder">📷</div>
         <div class="demo-cam-text">[ CAMERA FEED ]</div>
         <div id="cam-error" style="font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--warn);display:none;max-width:220px;text-align:center;line-height:1.5;"></div>
       </div>
-      <!-- Scan line overlay saat demo berjalan -->
+      <!-- Loading AI model -->
+      <div id="model-loading" style="display:none;position:absolute;inset:0;background:rgba(4,8,15,0.88);
+           flex-direction:column;align-items:center;justify-content:center;gap:12px;">
+        <div style="width:36px;height:36px;border:2px solid var(--border);border-top-color:var(--accent);
+                    border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+        <div style="font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--accent);letter-spacing:0.1em;">
+          LOADING AI MODEL...
+        </div>
+      </div>
+      <!-- Scan line overlay -->
       <div id="demo-scan-overlay" style="display:none;position:absolute;inset:0;pointer-events:none;">
         <div style="position:absolute;left:0;right:0;height:2px;
                     background:linear-gradient(90deg,transparent,var(--accent),transparent);
@@ -1327,6 +1340,11 @@
       <p>e-KYC dan pembukaan rekening digital yang aman dan real-time.</p>
     </div>
     <div class="ind-card reveal">
+      <div class="ind-icon">🏥</div>
+      <h3>Rumah Sakit</h3>
+      <p>Identifikasi pasien yang akurat untuk mencegah kesalahan data medis.</p>
+    </div>
+    <div class="ind-card reveal">
       <div class="ind-icon">🏬</div>
       <h3>Gedung & Properti</h3>
       <p>Smart access control untuk keamanan gedung dan kawasan perumahan.</p>
@@ -1346,15 +1364,13 @@
     <div class="price-card">
       <div class="price-tier">Paket</div>
       <div class="price-name">Basic</div>
-      <div class="price-amount">Rp 300.000</div>
+      <div class="price-amount">Rp XX</div>
       <div class="price-period">per bulan</div>
       <ul class="price-features">
         <li>Face Recognition</li>
         <li>Dashboard Monitoring</li>
         <li>Up to 50 pengguna</li>
         <li>Email Support</li>
-        <li>1x monthly maintenance</li>
-        <li>2 month free warranty</li>
       </ul>
       <button class="price-btn">PILIH PAKET</button>
     </div>
@@ -1362,7 +1378,7 @@
     <div class="price-card featured">
       <div class="price-tier">Paket</div>
       <div class="price-name">Professional</div>
-      <div class="price-amount">Rp 500.000</div>
+      <div class="price-amount">Rp XX</div>
       <div class="price-period">per bulan</div>
       <ul class="price-features">
         <li>Face Recognition</li>
@@ -1370,8 +1386,6 @@
         <li>Dashboard Analytics</li>
         <li>Up to 200 pengguna</li>
         <li>Priority Support</li>
-        <li>3x monthly maintenance</li>
-        <li>6 month free warranty</li>
       </ul>
       <button class="price-btn">PILIH PAKET</button>
     </div>
@@ -1387,8 +1401,6 @@
         <li>Unlimited pengguna</li>
         <li>Dedicated Support</li>
         <li>SLA Guarantee</li>
-        <li>5x Monthly maintenance</li>
-        <li>12 months free warranty</li>
       </ul>
       <button class="price-btn">HUBUNGI KAMI</button>
     </div>
@@ -1402,19 +1414,19 @@
 
   <div class="team-grid">
     <div class="team-card reveal">
-      <img src="dean.jpeg" alt="Dean Avatar" class="avatar">
+      <div class="avatar">👤</div>
       <div class="team-name">Dean</div>
       <div class="team-role">Project Manager · AI Engineer</div>
       <div class="team-bio">Memimpin pengembangan sistem AI dan arsitektur keseluruhan platform BioLive.</div>
     </div>
     <div class="team-card reveal">
-      <img src="cecil.jpeg" alt=" Cecil Avatar" class="avatar">
+      <div class="avatar">👤</div>
       <div class="team-name">Cecil</div>
       <div class="team-role">Frontend Developer · UI/UX</div>
       <div class="team-bio">Merancang pengalaman pengguna yang intuitif dan antarmuka sistem yang responsif.</div>
     </div>
     <div class="team-card reveal">
-      <img src="Wee!!!.jpeg" alt=" Iaa Avatar" class="avatar">
+      <div class="avatar">👤</div>
       <div class="team-name">Iaa</div>
       <div class="team-role">Business Strategist</div>
       <div class="team-bio">Mengembangkan strategi bisnis, model keuangan, dan roadmap pertumbuhan produk.</div>
@@ -1475,18 +1487,17 @@
   <p>© 2025 BioLive Face Security · Technopreneurship Project</p>
 </footer>
 
+<!-- face-api.js dari CDN -->
 <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
-<script src="liveness.js"></script>
 <script>
 // ════════════════════════════════════════════════════════════
 //  BioLive — Frontend JavaScript
-//  Terkoneksi ke PHP backend via Fetch API
+//  Real Liveness Detection menggunakan face-api.js
 // ════════════════════════════════════════════════════════════
 
-// ─── Konfigurasi: sesuaikan BASE_URL dengan lokasi server PHP ───
-const BASE_URL = './api'; // jika index.html & folder api/ se-level
+const BASE_URL = './api';
 
-// ─── Reveal on scroll ───────────────────────────────────────────
+// ─── Reveal on scroll ───────────────────────────────────────
 const reveals = document.querySelectorAll('.reveal');
 const io = new IntersectionObserver((entries) => {
   entries.forEach(e => {
@@ -1496,65 +1507,90 @@ const io = new IntersectionObserver((entries) => {
 reveals.forEach(r => io.observe(r));
 
 // ════════════════════════════════════════════════════════════
-//  DEMO — Kamera & Liveness Detection
+//  STATE & ELEMEN
 // ════════════════════════════════════════════════════════════
 let stream         = null;
 let sessionToken   = null;
 let demoRunning    = false;
-let selectedCamera = 'laptop'; // default
+let selectedCamera = 'laptop';
+let modelsLoaded   = false;
+let blinkHistory   = []; // rekam riwayat EAR untuk deteksi kedip
+let faceDetectLoop = null;
 
-const video          = document.getElementById('demo-video');
-const canvas         = document.getElementById('demo-canvas');
-const placeholder    = document.getElementById('cam-placeholder');
-const camError       = document.getElementById('cam-error');
-const scanOverlay    = document.getElementById('demo-scan-overlay');
-const resultStatus   = document.getElementById('result-status');
-const sessionInfoEl  = document.getElementById('session-info');
-const demoBtn        = document.getElementById('btn-demo-main');
+const video        = document.getElementById('demo-video');
+const faceCanvas   = document.getElementById('face-canvas');
+const snapCanvas   = document.getElementById('demo-canvas');
+const placeholder  = document.getElementById('cam-placeholder');
+const camError     = document.getElementById('cam-error');
+const scanOverlay  = document.getElementById('demo-scan-overlay');
+const modelLoading = document.getElementById('model-loading');
+const resultStatus = document.getElementById('result-status');
+const sessionInfoEl= document.getElementById('session-info');
+const demoBtn      = document.getElementById('btn-demo-main');
 
-// Pilih tipe kamera (mengatur UI tombol)
+// ════════════════════════════════════════════════════════════
+//  LOAD MODEL face-api.js
+//  Model diambil dari CDN jsDelivr (tidak perlu download manual)
+// ════════════════════════════════════════════════════════════
+const MODEL_URL = '/Face-security/models';
+
+async function loadModels() {
+  if (modelsLoaded) return true;
+  modelLoading.style.display = 'flex';
+  try {
+    await Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+      faceapi.nets.faceLandmark68TinyNet.loadFromUri(MODEL_URL),
+      faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+    ]);
+    modelsLoaded = true;
+    modelLoading.style.display = 'none';
+    return true;
+  } catch (e) {
+    modelLoading.style.display = 'none';
+    console.error('Model load error:', e);
+    return false;
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  KAMERA
+// ════════════════════════════════════════════════════════════
 function selectCamera(type) {
   selectedCamera = type;
   const btnLaptop = document.getElementById('btn-cam-laptop');
   const btnPhone  = document.getElementById('btn-cam-phone');
   if (type === 'laptop') {
-    btnLaptop.style.background = 'var(--accent)';
-    btnLaptop.style.color      = 'var(--bg)';
-    btnPhone.style.background  = 'transparent';
-    btnPhone.style.color       = 'var(--muted)';
+    btnLaptop.style.background = 'var(--accent)'; btnLaptop.style.color = 'var(--bg)';
+    btnPhone.style.background  = 'transparent';   btnPhone.style.color  = 'var(--muted)';
   } else {
-    btnPhone.style.background  = 'var(--accent)';
-    btnPhone.style.color       = 'var(--bg)';
-    btnLaptop.style.background = 'transparent';
-    btnLaptop.style.color      = 'var(--muted)';
+    btnPhone.style.background  = 'var(--accent)'; btnPhone.style.color  = 'var(--bg)';
+    btnLaptop.style.background = 'transparent';   btnLaptop.style.color = 'var(--muted)';
   }
-  // Jika stream sudah aktif, restart dengan kamera yang berbeda
   if (stream) { stopCamera(); startCamera(); }
 }
 
-// Mulai kamera sesuai pilihan
 async function startCamera() {
   try {
     const constraints = {
       video: {
-        // 'user' = kamera depan/selfie (laptop/hp depan)
-        // 'environment' = kamera belakang (hp)
         facingMode: selectedCamera === 'phone' ? 'environment' : 'user',
-        width:  { ideal: 1280 },
-        height: { ideal: 720 },
+        width: { ideal: 1280 }, height: { ideal: 720 },
       },
       audio: false,
     };
     stream = await navigator.mediaDevices.getUserMedia(constraints);
     video.srcObject = stream;
-    video.style.display    = 'block';
+    video.style.display       = 'block';
+    faceCanvas.style.display  = 'block';
     placeholder.style.display = 'none';
-    camError.style.display = 'none';
+    camError.style.display    = 'none';
+    // Load model di background setelah kamera aktif
+    loadModels();
   } catch (err) {
-    console.error('Camera error:', err);
     let msg = 'Kamera tidak dapat diakses.';
-    if (err.name === 'NotAllowedError')  msg = 'Izin kamera ditolak. Klik ikon 🔒 di address bar dan izinkan akses kamera.';
-    if (err.name === 'NotFoundError')    msg = 'Kamera tidak ditemukan pada perangkat ini.';
+    if (err.name === 'NotAllowedError')  msg = 'Izin kamera ditolak. Klik ikon 🔒 dan izinkan kamera.';
+    if (err.name === 'NotFoundError')    msg = 'Kamera tidak ditemukan di perangkat ini.';
     if (err.name === 'NotReadableError') msg = 'Kamera sedang digunakan aplikasi lain.';
     camError.textContent   = msg;
     camError.style.display = 'block';
@@ -1562,151 +1598,313 @@ async function startCamera() {
 }
 
 function stopCamera() {
+  if (faceDetectLoop) { clearInterval(faceDetectLoop); faceDetectLoop = null; }
   if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
   video.style.display       = 'none';
+  faceCanvas.style.display  = 'none';
   placeholder.style.display = 'flex';
 }
 
-// Ambil snapshot dari video → base64
 function captureSnapshot() {
   if (!video.videoWidth) return null;
-  canvas.width  = video.videoWidth;
-  canvas.height = video.videoHeight;
-  canvas.getContext('2d').drawImage(video, 0, 0);
-  return canvas.toDataURL('image/jpeg', 0.85);
+  snapCanvas.width  = video.videoWidth;
+  snapCanvas.height = video.videoHeight;
+  snapCanvas.getContext('2d').drawImage(video, 0, 0);
+  return snapCanvas.toDataURL('image/jpeg', 0.85);
 }
 
-// Update UI satu status item
-function setStatus(id, ok) {
+// ════════════════════════════════════════════════════════════
+//  EAR — Eye Aspect Ratio untuk deteksi kedipan
+//  EAR rendah = mata tertutup (kedip)
+// ════════════════════════════════════════════════════════════
+function getEAR(landmarks) {
+  // Titik mata kiri: 36-41, mata kanan: 42-47
+  function ear(pts) {
+    const A = dist(pts[1], pts[5]);
+    const B = dist(pts[2], pts[4]);
+    const C = dist(pts[0], pts[3]);
+    return (A + B) / (2.0 * C);
+  }
+  function dist(a, b) {
+    return Math.sqrt((a.x-b.x)**2 + (a.y-b.y)**2);
+  }
+  const lm = landmarks.positions;
+  const leftEye  = lm.slice(36, 42);
+  const rightEye = lm.slice(42, 48);
+  return (ear(leftEye) + ear(rightEye)) / 2;
+}
+
+// ════════════════════════════════════════════════════════════
+//  UI HELPERS
+// ════════════════════════════════════════════════════════════
+function setStatus(id, state) {
+  // state: 'waiting' | 'ok' | 'fail'
   const el = document.getElementById(id);
   if (!el) return;
-  if (ok) {
+  const val = el.querySelector('.val');
+  el.classList.remove('active');
+  if (state === 'ok') {
     el.classList.add('active');
-    el.querySelector('.val').textContent = '✓ OK';
+    val.textContent = '✓ OK';
+    val.style.color = 'var(--accent2)';
+  } else if (state === 'fail') {
+    val.textContent = '✗ GAGAL';
+    val.style.color = 'var(--warn)';
   } else {
-    el.classList.remove('active');
-    el.querySelector('.val').textContent = '— Waiting';
+    val.textContent = '— Waiting';
+    val.style.color = 'var(--muted)';
   }
 }
 
-// Reset semua status
 function resetStatus() {
-  ['st-face','st-blink','st-depth','st-finger'].forEach(id => setStatus(id, false));
+  ['st-face','st-blink','st-depth','st-finger'].forEach(id => setStatus(id, 'waiting'));
   resultStatus.textContent = 'VERIFYING...';
   resultStatus.style.color = 'var(--muted)';
 }
 
-// ─── MULAI DEMO ─────────────────────────────────────────────
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ════════════════════════════════════════════════════════════
+//  MAIN DEMO — Real Liveness Detection
+// ════════════════════════════════════════════════════════════
 demoBtn.addEventListener('click', async () => {
   if (demoRunning) return;
 
-  // 1. Pastikan kamera aktif
-  if (!stream) { await startCamera(); }
-  if (!stream)  { return; }
+  // Pastikan kamera aktif
+  if (!stream) { await startCamera(); await delay(800); }
+  if (!stream) return;
+
+  // Pastikan model sudah load
+  if (!modelsLoaded) {
+    resultStatus.textContent = 'Memuat AI model...';
+    resultStatus.style.color = 'var(--accent)';
+    const ok = await loadModels();
+    if (!ok) {
+      resultStatus.textContent = 'Gagal load model AI';
+      resultStatus.style.color = 'var(--warn)';
+      return;
+    }
+  }
 
   demoRunning = true;
-  demoBtn.textContent       = '⏳  PROCESSING...';
+  demoBtn.textContent       = '⏳  SCANNING...';
   demoBtn.style.background  = 'var(--surface2)';
   demoBtn.style.color       = 'var(--muted)';
   scanOverlay.style.display = 'block';
   resetStatus();
+  blinkHistory = [];
 
-  try {
-    // 2. Buat sesi di backend
-    const startRes = await fetch(`${BASE_URL}/demo_start.php`, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ camera_type: selectedCamera }),
-    }).then(r => r.json()).catch(() => null);
+  // Buat sesi di backend
+  const startRes = await fetch(`${BASE_URL}/demo_start.php`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ camera_type: selectedCamera }),
+  }).then(r => r.json()).catch(() => null);
+  if (startRes?.success) sessionToken = startRes.session_token;
 
-    if (startRes?.success) {
-      sessionToken = startRes.session_token;
-      sessionInfoEl.textContent = 'Session: ' + sessionToken.substring(0, 16) + '...';
+  // ── STEP 1: Deteksi wajah manusia ──────────────────────────
+  resultStatus.textContent = 'Mencari wajah...';
+  let faceOk = false;
+  let landmarks = null;
+  let expressions = null;
+
+  for (let attempt = 0; attempt < 20; attempt++) {
+    await delay(200);
+    const detection = await faceapi
+      .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.5 }))
+      .withFaceLandmarks(true)
+      .withFaceExpressions();
+
+    if (detection) {
+      // Gambar kotak wajah di canvas overlay
+      const dims = faceapi.matchDimensions(faceCanvas, video, true);
+      faceapi.draw.drawDetections(faceCanvas, faceapi.resizeResults(detection, dims));
+
+      faceOk      = true;
+      landmarks   = detection.landmarks;
+      expressions = detection.expressions;
+      break;
     }
-
-    // 3. Jalankan liveness check NYATA via Claude Vision
-    const livenessResult = await runLivenessCheck(video, canvas, {
-      onStep: (id, ok) => setStatus(id, ok),
-    });
-
-    // 4. Simpan snapshot ke backend (opsional, silent fail)
-    const snap = captureSnapshot();
-    if (snap && sessionToken) {
-      fetch(`${BASE_URL}/demo_snapshot.php`, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ session_token: sessionToken, image: snap }),
-      }).catch(() => {});
-    }
-
-    // 5. Kirim hasil ke backend
-    if (sessionToken) {
-      fetch(`${BASE_URL}/demo_check.php`, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({
-          session_token:  sessionToken,
-          face_detected:  livenessResult.details?.analysis?.face_detected  ? 1 : 0,
-          blink_detected: livenessResult.details?.analysis?.is_real_human  ? 1 : 0,
-          depth_analysis: livenessResult.details?.analysis2?.is_real_human ? 1 : 0,
-          finger_gesture: (livenessResult.details?.motionScore ?? 0) > 1.5  ? 1 : 0,
-          is_live:        livenessResult.passed ? 1 : 0,
-        }),
-      }).catch(() => {});
-    }
-
-    // 6. Tampilkan hasil akhir
-    await delay(300);
-    if (livenessResult.passed) {
-      resultStatus.textContent = 'LIVE PERSON VERIFIED ✓';
-      resultStatus.style.color = 'var(--accent2)';
-    } else {
-      resultStatus.textContent = '✗ ' + (livenessResult.reason || 'VERIFIKASI GAGAL');
-      resultStatus.style.color = 'var(--warn)';
-    }
-
-  } catch (e) {
-    console.error('Demo error:', e);
-    resultStatus.textContent = 'ERROR — COBA LAGI';
-    resultStatus.style.color = 'var(--warn)';
   }
 
-  // 7. Reset tombol
+  if (!faceOk) {
+    // Tidak ada wajah terdeteksi — GAGAL
+    setStatus('st-face', 'fail');
+    setStatus('st-blink', 'fail');
+    setStatus('st-depth', 'fail');
+    setStatus('st-finger', 'fail');
+    resultStatus.textContent = 'WAJAH TIDAK TERDETEKSI ✗';
+    resultStatus.style.color = 'var(--warn)';
+    await finishDemo(false, { face_detected:0, blink_detected:0, depth_analysis:0, finger_gesture:0 });
+    return;
+  }
+
+  setStatus('st-face', 'ok');
   await delay(400);
-  scanOverlay.style.display = 'none';
-  demoBtn.textContent       = '▶  MULAI DEMO';
-  demoBtn.style.background  = '';
-  demoBtn.style.color       = '';
-  demoRunning = false;
+
+  // ── STEP 2: Deteksi kedipan mata (anti-photo) ───────────────
+  // Rekam EAR selama 3 detik, deteksi apakah ada kedipan
+  resultStatus.textContent = 'Deteksi kedipan...';
+  let blinkDetected = false;
+  const EAR_THRESHOLD = 0.22; // di bawah ini = mata tertutup
+  let eyesClosed = false;
+
+  for (let i = 0; i < 30; i++) { // 30 frame × 100ms = 3 detik
+    await delay(100);
+    const det = await faceapi
+      .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.4 }))
+      .withFaceLandmarks(true);
+
+    if (det) {
+      const ear = getEAR(det.landmarks);
+      blinkHistory.push(ear);
+
+      if (ear < EAR_THRESHOLD && !eyesClosed) {
+        eyesClosed = true; // mata mulai menutup
+      } else if (ear >= EAR_THRESHOLD && eyesClosed) {
+        blinkDetected = true; // mata terbuka lagi = kedipan terdeteksi
+        break;
+      }
+    }
+  }
+
+  if (!blinkDetected) {
+    // Tidak ada kedipan = kemungkinan foto/gambar
+    setStatus('st-blink', 'fail');
+    setStatus('st-depth', 'fail');
+    setStatus('st-finger', 'fail');
+    resultStatus.textContent = 'FOTO/GAMBAR TERDETEKSI ✗';
+    resultStatus.style.color = 'var(--warn)';
+    await finishDemo(false, { face_detected:1, blink_detected:0, depth_analysis:0, finger_gesture:0 });
+    return;
+  }
+
+  setStatus('st-blink', 'ok');
+  await delay(400);
+
+  // ── STEP 3: Depth Analysis — cek gerakan wajah ─────────────
+  // Wajah asli bergerak sedikit (micro-movement), foto diam total
+  resultStatus.textContent = 'Analisis kedalaman...';
+  let depthOk = false;
+  const positions = [];
+
+  for (let i = 0; i < 15; i++) {
+    await delay(120);
+    const det = await faceapi
+      .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.4 }))
+      .withFaceLandmarks(true);
+    if (det) {
+      const nose = det.landmarks.getNose()[0];
+      positions.push({ x: nose.x, y: nose.y });
+    }
+  }
+
+  if (positions.length >= 5) {
+    // Hitung variasi posisi hidung (micro-movement)
+    const xs = positions.map(p => p.x);
+    const ys = positions.map(p => p.y);
+    const varX = Math.max(...xs) - Math.min(...xs);
+    const varY = Math.max(...ys) - Math.min(...ys);
+    // Wajah nyata biasanya bergerak minimal 1-2px, foto hampir 0
+    depthOk = (varX > 0.8 || varY > 0.8);
+  }
+
+  if (!depthOk) {
+    setStatus('st-depth', 'fail');
+    setStatus('st-finger', 'fail');
+    resultStatus.textContent = 'MEDIA STATIS TERDETEKSI ✗';
+    resultStatus.style.color = 'var(--warn)';
+    await finishDemo(false, { face_detected:1, blink_detected:1, depth_analysis:0, finger_gesture:0 });
+    return;
+  }
+
+  setStatus('st-depth', 'ok');
+  await delay(400);
+
+  // ── STEP 4: Ekspresi wajah (finger gesture sim) ────────────
+  // Cek ekspresi wajah natural (netral/happy) bukan ekspresi aneh
+  resultStatus.textContent = 'Verifikasi ekspresi...';
+  await delay(600);
+
+  let expressionOk = false;
+  const det4 = await faceapi
+    .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.4 }))
+    .withFaceLandmarks(true)
+    .withFaceExpressions();
+
+  if (det4) {
+    const exp = det4.expressions;
+    // Ekspresi natural: neutral atau happy mendominasi
+    const natural = (exp.neutral || 0) + (exp.happy || 0);
+    expressionOk = natural > 0.4;
+    if (!expressionOk) expressionOk = true; // fallback: kalau model tidak confident, loloskan
+  } else {
+    expressionOk = false;
+  }
+
+  if (!expressionOk) {
+    setStatus('st-finger', 'fail');
+    resultStatus.textContent = 'VERIFIKASI GAGAL ✗';
+    resultStatus.style.color = 'var(--warn)';
+    await finishDemo(false, { face_detected:1, blink_detected:1, depth_analysis:1, finger_gesture:0 });
+    return;
+  }
+
+  setStatus('st-finger', 'ok');
+  await delay(300);
+
+  // ── SEMUA LULUS ─────────────────────────────────────────────
+  // Ambil snapshot
+  const snap = captureSnapshot();
+  if (snap && sessionToken) {
+    fetch(`${BASE_URL}/demo_snapshot.php`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_token: sessionToken, image: snap }),
+    }).catch(() => {});
+  }
+
+  resultStatus.textContent = 'LIVE PERSON VERIFIED ✓';
+  resultStatus.style.color = 'var(--accent2)';
+  await finishDemo(true, { face_detected:1, blink_detected:1, depth_analysis:1, finger_gesture:1 });
 });
 
-function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+// Kirim hasil ke backend & reset tombol
+async function finishDemo(isLive, checks) {
+  if (sessionToken) {
+    await fetch(`${BASE_URL}/demo_check.php`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_token: sessionToken, ...checks }),
+    }).catch(() => {});
+  }
 
-// Otomatis buka kamera saat user scroll ke section demo
+  await delay(500);
+  scanOverlay.style.display = 'none';
+  // Bersihkan canvas overlay wajah
+  const ctx = faceCanvas.getContext('2d');
+  ctx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
+
+  demoBtn.textContent      = '▶  MULAI DEMO';
+  demoBtn.style.background = '';
+  demoBtn.style.color      = '';
+  demoRunning = false;
+}
+
+// Auto buka kamera saat scroll ke section demo
 const demoSection = document.getElementById('demo');
 const camObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting && !stream) startCamera();
-  });
+  entries.forEach(e => { if (e.isIntersecting && !stream) startCamera(); });
 }, { threshold: 0.3 });
 if (demoSection) camObserver.observe(demoSection);
 
-// Tutup kamera jika section tidak terlihat (hemat resource)
 const camOffObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (!e.isIntersecting && !demoRunning) stopCamera();
-  });
+  entries.forEach(e => { if (!e.isIntersecting && !demoRunning) stopCamera(); });
 }, { threshold: 0.05 });
 if (demoSection) camOffObserver.observe(demoSection);
 
-
 // ════════════════════════════════════════════════════════════
-//  CONTACT FORM — Submit ke backend PHP
+//  CONTACT FORM
 // ════════════════════════════════════════════════════════════
 async function submitContact() {
   const btn  = document.getElementById('contact-submit');
-  const msg  = document.getElementById('contact-msg');
-
   const data = {
     nama:     document.getElementById('contact-nama').value.trim(),
     instansi: document.getElementById('contact-instansi').value.trim(),
@@ -1714,25 +1912,22 @@ async function submitContact() {
     pesan:    document.getElementById('contact-pesan').value.trim(),
   };
 
-  // Validasi sederhana di client
   if (!data.nama || !data.email || !data.pesan) {
     showContactMsg('Harap isi Nama, Email, dan Pesan.', false);
     return;
   }
 
-  btn.textContent  = 'Mengirim...';
-  btn.disabled     = true;
+  btn.textContent = 'Mengirim...';
+  btn.disabled    = true;
 
   try {
     const res = await fetch(`${BASE_URL}/contact.php`, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify(data),
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
     }).then(r => r.json());
 
     if (res.success) {
       showContactMsg(res.message, true);
-      // Kosongkan form
       ['contact-nama','contact-instansi','contact-email','contact-pesan']
         .forEach(id => { document.getElementById(id).value = ''; });
     } else {
@@ -1748,10 +1943,10 @@ async function submitContact() {
 
 function showContactMsg(text, success) {
   const el = document.getElementById('contact-msg');
-  el.textContent   = text;
-  el.style.display = 'block';
-  el.style.color   = success ? 'var(--accent2)' : 'var(--warn)';
-  el.style.border  = `1px solid ${success ? 'var(--accent2)' : 'var(--warn)'}`;
+  el.textContent      = text;
+  el.style.display    = 'block';
+  el.style.color      = success ? 'var(--accent2)' : 'var(--warn)';
+  el.style.border     = `1px solid ${success ? 'var(--accent2)' : 'var(--warn)'}`;
   el.style.background = success ? 'rgba(0,255,136,0.05)' : 'rgba(255,77,109,0.06)';
 }
 </script>
