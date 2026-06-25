@@ -1,14 +1,10 @@
 <?php
-// ============================================================
-//  BioLive — config/database.php
-//  Koneksi ke MySQL (phpMyAdmin)
-//  Sesuaikan DB_USER dan DB_PASS dengan credential lokal Anda
-// ============================================================
+
 
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'biolive_db');
-define('DB_USER', 'root');       // ganti jika beda
-define('DB_PASS', '');           // ganti jika pakai password
+define('DB_USER', 'root');     
+define('DB_PASS', '');          
 define('DB_CHARSET', 'utf8mb4');
 
 /**
